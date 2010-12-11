@@ -1,0 +1,32 @@
+include makefile.common
+
+SERVEREXENAME=server_$(NID)_deb.exe
+SRCDIR=src
+BINDIR=bin/$(OS)/debug
+EXEDIR=exe
+
+#CFLAGS += -DLOADBAR -DDEBUG -D_DEBUG -DSDEBUG -DSALVADATOS
+
+OBJS=$(BINDIR)/sys/linux/main_server_deb.o
+
+################################################################################
+
+
+
+all:$(SERVEREXENAME)
+
+$(SERVEREXENAME): $(OBJS)
+	mkdir -p $(EXEDIR)/
+	$(CC) $(OBJS) $(LIBS) $(SYSLIBS) $(EFLAGS) -o $(EXEDIR)/$(SERVEREXENAME)
+
+
+$(BINDIR)/sys/linux/%.o: $(SRCDIR)/sys/linux/%.cpp
+	mkdir -p $(BINDIR)/sys/linux/
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+
+################################################################################
+
+clean:
+	rm -rf $(BINDIR)*.o
+	clear

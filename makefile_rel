@@ -1,0 +1,170 @@
+include makefile.common
+
+EXENAME=main$(NID)_rel.exe
+SRCDIR=src/
+BINDIR=bin/$(OS)/release/
+EXEDIR=exe/
+
+CFLAGS += -DLOADBAR
+
+
+OBJS=$(BINDIR)intro.o $(BINDIR)msys_glext.o $(BINDIR)msys_random.o \
+     $(BINDIR)msys_malloc.o $(BINDIR)msys_threadOS.o $(BINDIR)msys_mmallocOS.o \
+     $(BINDIR)msys_fontOS.o $(BINDIR)msys_timerOS.o $(BINDIR)msys_soundOS.o \
+     $(BINDIR)msys_libcOS.o $(BINDIR)msys.o $(BINDIR)main_rel.o \
+	 $(BINDIR)Shader.o $(BINDIR)vs_test.glsl.o $(BINDIR)ps_test.glsl.o \
+	 $(BINDIR)vs_monster.glsl.o $(BINDIR)ps_monster.glsl.o \
+ 	 $(BINDIR)vs_landscape.glsl.o $(BINDIR)ps_landscape.glsl.o \
+	 $(BINDIR)common.glsl.o \
+	 $(BINDIR)Camera.o \
+	 $(BINDIR)Geometry.o $(BINDIR)CurveGeometry.o $(BINDIR)Attribute.o $(BINDIR)Skeleton.o\
+	 $(BINDIR)Texture.o $(BINDIR)gfx.o \
+	 $(BINDIR)Math.o $(BINDIR)Noise.o $(BINDIR)Vec3f.o $(BINDIR)Matrix44f.o \
+	 $(BINDIR)FCurve.o $(BINDIR)monster.o
+	 
+
+################################################################################
+
+$(EXENAME): $(OBJS)
+	$(CC) $(OBJS) $(LIBS) $(SYSLIBS) $(EFLAGS) -o $(EXEDIR)$(EXENAME)
+	strip -s -R .comment -R .gnu.version $(EXEDIR)$(EXENAME)
+	#sstrip $(EXEDIR)$(EXENAME)
+	ls -l $(EXEDIR)$(EXENAME)
+	#upx --brute $(EXEDIR)$(EXENAME)
+	#sstrip $(EXEDIR)$(EXENAME)
+	ls -l $(EXEDIR)$(EXENAME)
+
+#--- intro -------------
+
+$(BINDIR)intro.o: $(SRCDIR)intro.cpp
+	$(CC) -c $(SRCDIR)intro.cpp $(CFLAGS) -o$@
+	
+#--- gfx -------------	
+
+$(BINDIR)Shader.o: $(SRCDIR)gfx/Shader.cpp
+	$(CC) -c $(SRCDIR)gfx/Shader.cpp $(CFLAGS) -o$@
+$(BINDIR)Camera.o: $(SRCDIR)gfx/Camera.cpp
+	$(CC) -c $(SRCDIR)gfx/Camera.cpp $(CFLAGS) -o$@
+$(BINDIR)Attribute.o: $(SRCDIR)gfx/Attribute.cpp
+	$(CC) -c $(SRCDIR)gfx/Attribute.cpp $(CFLAGS) -o$@
+$(BINDIR)CurveGeometry.o: $(SRCDIR)gfx/CurveGeometry.cpp
+	$(CC) -c $(SRCDIR)gfx/CurveGeometry.cpp $(CFLAGS) -o$@
+$(BINDIR)Geometry.o: $(SRCDIR)gfx/Geometry.cpp
+	$(CC) -c $(SRCDIR)gfx/Geometry.cpp $(CFLAGS) -o$@
+$(BINDIR)Texture.o: $(SRCDIR)gfx/Texture.cpp
+	$(CC) -c $(SRCDIR)gfx/Texture.cpp $(CFLAGS) -o$@
+$(BINDIR)Skeleton.o: $(SRCDIR)gfx/Skeleton.cpp
+	$(CC) -c $(SRCDIR)gfx/Skeleton.cpp $(CFLAGS) -o$@
+$(BINDIR)FCurve.o: $(SRCDIR)gfx/FCurve.cpp
+	$(CC) -c $(SRCDIR)gfx/FCurve.cpp $(CFLAGS) -o$@
+$(BINDIR)gfx.o: $(SRCDIR)gfx/gfx.cpp
+	$(CC) -c $(SRCDIR)gfx/gfx.cpp $(CFLAGS) -o$@
+	
+#--- math -------------		
+
+$(BINDIR)Vec3f.o: $(SRCDIR)math/Vec3f.cpp
+	$(CC) -c $(SRCDIR)math/Vec3f.cpp $(CFLAGS) -o$@
+$(BINDIR)Matrix44f.o: $(SRCDIR)math/Matrix44f.cpp
+	$(CC) -c $(SRCDIR)math/Matrix44f.cpp $(CFLAGS) -o$@
+$(BINDIR)Noise.o: $(SRCDIR)math/Noise.cpp
+$(CC) -c $(SRCDIR)math/Noise.cpp $(CFLAGS) -o$@
+$(BINDIR)Math.o: $(SRCDIR)math/Math.cpp
+	$(CC) -c $(SRCDIR)math/Math.cpp $(CFLAGS) -o$@
+
+
+#--- sys -------------
+
+$(BINDIR)msys_glext.o: $(SRCDIR)sys/msys_glext.cpp
+	$(CC) -c $(SRCDIR)sys/msys_glext.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_random.o: $(SRCDIR)sys/msys_random.cpp
+	$(CC) -c $(SRCDIR)sys/msys_random.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_malloc.o: $(SRCDIR)sys/msys_malloc.cpp
+	$(CC) -c $(SRCDIR)sys/msys_malloc.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_threadOS.o: $(SRCDIR)sys/$(OS)/msys_threadOS.cpp
+	$(CC) -c $(SRCDIR)sys/$(OS)/msys_threadOS.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_mallocOS.o: $(SRCDIR)sys/$(OS)/msys_mallocOS.cpp
+	$(CC) -c $(SRCDIR)sys/$(OS)/msys_mallocOS.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_fontOS.o: $(SRCDIR)sys/$(OS)/msys_fontOS.cpp
+	$(CC) -c $(SRCDIR)sys/$(OS)/msys_fontOS.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_timerOS.o: $(SRCDIR)sys/$(OS)/msys_timerOS.cpp
+	$(CC) -c $(SRCDIR)sys/$(OS)/msys_timerOS.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_soundOS.o: $(SRCDIR)sys/$(OS)/msys_soundOS.cpp
+	$(CC) -c $(SRCDIR)sys/$(OS)/msys_soundOS.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys_libcOS.o: $(SRCDIR)sys/$(OS)/msys_libcOS.cpp
+	$(CC) -c $(SRCDIR)sys/$(OS)/msys_libcOS.cpp $(CFLAGS) -o$@
+
+$(BINDIR)msys.o: $(SRCDIR)sys/msys.cpp
+	$(CC) -c $(SRCDIR)sys/msys.cpp $(CFLAGS) -o$@
+
+$(BINDIR)main_rel.o: $(SRCDIR)sys/$(OS)/main_rel.cpp
+	$(CC) -c $(SRCDIR)sys/$(OS)/main_rel.cpp $(CFLAGS) -o$@
+	
+# --- glsl shaders ------------
+
+
+$(BINDIR)vs_test.glsl.o: $(BINDIR)vs_test.glsl.cpp
+	$(CC) -c $(BINDIR)vs_test.glsl.cpp $(CFLAGS) -o$@
+$(BINDIR)vs_test.glsl.cpp: $(SRCDIR)glsl/vs_test.glsl
+	python2.5 glsl2cpp.py $(SRCDIR)glsl/vs_test.glsl > $(BINDIR)vs_test.glsl.cpp
+
+
+$(BINDIR)ps_test.glsl.o: $(BINDIR)ps_test.glsl.cpp
+	$(CC) -c $(BINDIR)ps_test.glsl.cpp $(CFLAGS) -o$@
+$(BINDIR)ps_test.glsl.cpp: $(SRCDIR)glsl/ps_test.glsl
+	python2.5 glsl2cpp.py $(SRCDIR)glsl/ps_test.glsl > $(BINDIR)ps_test.glsl.cpp
+
+$(BINDIR)vs_monster.glsl.o: $(BINDIR)vs_monster.glsl.cpp
+	$(CC) -c $(BINDIR)vs_monster.glsl.cpp $(CFLAGS) -o$@
+$(BINDIR)vs_monster.glsl.cpp: $(SRCDIR)glsl/vs_monster.glsl
+	python2.5 glsl2cpp.py $(SRCDIR)glsl/vs_monster.glsl > $(BINDIR)vs_monster.glsl.cpp
+
+$(BINDIR)ps_monster.glsl.o: $(BINDIR)ps_monster.glsl.cpp
+	$(CC) -c $(BINDIR)ps_monster.glsl.cpp $(CFLAGS) -o$@
+$(BINDIR)ps_monster.glsl.cpp: $(SRCDIR)glsl/ps_monster.glsl
+	python2.5 glsl2cpp.py $(SRCDIR)glsl/ps_monster.glsl > $(BINDIR)ps_monster.glsl.cpp
+
+
+
+$(BINDIR)vs_landscape.glsl.o: $(BINDIR)vs_landscape.glsl.cpp
+	$(CC) -c $(BINDIR)vs_landscape.glsl.cpp $(CFLAGS) -o$@
+$(BINDIR)vs_landscape.glsl.cpp: $(SRCDIR)glsl/vs_landscape.glsl
+	python2.5 glsl2cpp.py $(SRCDIR)glsl/vs_landscape.glsl > $(BINDIR)vs_landscape.glsl.cpp
+
+$(BINDIR)ps_landscape.glsl.o: $(BINDIR)ps_landscape.glsl.cpp
+	$(CC) -c $(BINDIR)ps_landscape.glsl.cpp $(CFLAGS) -o$@
+$(BINDIR)ps_landscape.glsl.cpp: $(SRCDIR)glsl/ps_landscape.glsl
+	python2.5 glsl2cpp.py $(SRCDIR)glsl/ps_landscape.glsl > $(BINDIR)ps_landscape.glsl.cpp
+	
+$(BINDIR)common.glsl.o: $(BINDIR)common.glsl.cpp
+	$(CC) -c $(BINDIR)common.glsl.cpp $(CFLAGS) -o$@
+$(BINDIR)common.glsl.cpp: $(SRCDIR)glsl/common.glsl
+	python2.5 glsl2cpp.py $(SRCDIR)glsl/common.glsl > $(BINDIR)common.glsl.cpp
+
+
+# --- data ------------
+$(BINDIR)monster.o: $(SRCDIR)data/monster.cpp
+	$(CC) -c $(SRCDIR)data/monster.cpp $(CFLAGS) -o$@
+
+
+################################################################################
+
+clean:
+	rm -rf $(BINDIR)*.o
+	rm -rf $(EXEDIR)core
+	#rm $(EXEDIR)debug.txt
+	clear
+
+all:
+	rm -rf $(BINDIR)*.o
+	rm -rf $(EXEDIR)core
+	#rm $(EXEDIR)debug.txt
+	clear
+	gmake
