@@ -1,24 +1,36 @@
 include makefile.common
 
 SERVEREXENAME=server_$(NID)_deb.exe
+CLIENTEXENAME=client_$(NID)_deb.exe
 SRCDIR=src
 BINDIR=bin/$(OS)/debug
 EXEDIR=exe
 
 #CFLAGS += -DLOADBAR -DDEBUG -D_DEBUG -DSDEBUG -DSALVADATOS
 
-OBJS=$(BINDIR)/sys/linux/main_server_deb.o \
-	$(BINDIR)/Server.o
+OBJS= $(BINDIR)/Server.o \
+	$(BINDIR)/Client.o \
+	$(BINDIR)/Message.o \
+	$(BINDIR)/Game.o \
+	$(BINDIR)/GameState.o
+
+SERVEROBJS = $(BINDIR)/sys/linux/main_server_deb.o
+CLIENTOBJS = $(BINDIR)/sys/linux/main_client_deb.o
+
 
 ################################################################################
 
 
 
-all:$(SERVEREXENAME)
+all:$(SERVEREXENAME) $(CLIENTEXENAME)
 
-$(SERVEREXENAME): $(OBJS)
+$(SERVEREXENAME): $(SERVEROBJS) $(OBJS)
 	mkdir -p $(EXEDIR)/
-	$(CC) $(OBJS) $(LIBS) $(SYSLIBS) $(EFLAGS) -o $(EXEDIR)/$(SERVEREXENAME)
+	$(CC) $(SERVEROBJS) $(OBJS) $(LIBS) $(SYSLIBS) $(EFLAGS) -o $(EXEDIR)/$(SERVEREXENAME)
+
+$(CLIENTEXENAME): $(CLIENTOBJS) $(OBJS)
+	mkdir -p $(EXEDIR)/
+	$(CC) $(CLIENTOBJS) $(OBJS) $(LIBS) $(SYSLIBS) $(EFLAGS) -o $(EXEDIR)/$(CLIENTEXENAME)
 
 
 $(BINDIR)/sys/linux/%.o: $(SRCDIR)/sys/linux/%.cpp
@@ -33,5 +45,4 @@ $(BINDIR)/%.o: $(SRCDIR)/%.cpp
 ################################################################################
 
 clean:
-	rm -rf $(BINDIR)*.o
-	clear
+	rm -rf $(BINDIR)

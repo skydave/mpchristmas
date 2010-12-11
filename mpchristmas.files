@@ -5,3 +5,12 @@ makefile_rel
 src/sys/linux/main_server_deb.cpp
 src/Server.h
 src/Server.cpp
+src/Client.h
+src/Client.cpp
+src/sys/linux/main_client_deb.cpp
+src/GameState.h
+src/GameState.cpp
+src/Game.cpp
+src/Game.h
+src/Message.h
+src/Message.cpp

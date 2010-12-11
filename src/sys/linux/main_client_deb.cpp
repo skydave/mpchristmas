@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#include "../../Server.h"
+#include "../../Client.h"
 
 
 #define XRES 640
@@ -24,7 +24,7 @@
 
 
 
-Server g_server;
+Client g_client;
 
 
 
@@ -81,7 +81,7 @@ void reshape(int width, int height)
 
 void display()
 {
-	g_server.m_game.render();
+	g_client.m_game.render();
 	glutPostRedisplay();
 	glutSwapBuffers();
 }
@@ -114,7 +114,7 @@ void specialKeydown(int key, int, int )
 
 void idle()
 {
-	g_server.update();
+	g_client.update();
 	glutPostRedisplay();
 }
 
@@ -182,11 +182,11 @@ int main(int argc, char ** argv)
 
 
 
-	g_server.init();
+	g_client.init();
 
 	glutMainLoop();
 
-	g_server.shutdown();
+	g_client.shutdown();
 	return 0;
 }
 

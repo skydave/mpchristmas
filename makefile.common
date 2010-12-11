@@ -42,8 +42,10 @@ ifeq ($(OSNAME),LINUX)
 	CC=g++
 	LL=ar
 	MM = make
+	LIBS =
 	#CFLAGS=-O2 -fPIC -DLITTLEENDIAN -DPC -DMULTIPROCESSOR -DLINUX
 	#CFLAGS+=-fomit-frame-pointer -fno-rtti
+
 
 	# for debugging
 	CFLAGS=-O0 -fPIC -DLITTLEENDIAN -DPC -DMULTIPROCESSOR -DLINUX
@@ -68,6 +70,11 @@ ifeq ($(OSNAME),LINUX)
 	else
 		SYSLIBS= -L/usr/X11R6/lib64/ -lpthread -lX11 -lGL -lGLU -lglut -lXext
 	endif
+
+	CFLAGS += -Iincludes/grapple/ -I/usr/include -I/usr/kerberos/include
+	LIBS += -Llibs/linux/ -lgrapple -L/usr/lib64 -lssl -lcrypto -L/usr/kerberos/lib -lgssapi_krb5 -lkrb5 -lcom_err -lk5crypto -lresolv -L/usr/kerberos/lib64 -ldl -lz
+
+
 endif
 
 #--------------------------------------------------------------------------------------------------------
