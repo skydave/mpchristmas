@@ -3,3 +3,5 @@ makefile.common
 makefile_deb
 makefile_rel
 src/sys/linux/main_server_deb.cpp
+src/Server.h
+src/Server.cpp

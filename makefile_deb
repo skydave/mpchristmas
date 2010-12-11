@@ -7,7 +7,8 @@ EXEDIR=exe
 
 #CFLAGS += -DLOADBAR -DDEBUG -D_DEBUG -DSDEBUG -DSALVADATOS
 
-OBJS=$(BINDIR)/sys/linux/main_server_deb.o
+OBJS=$(BINDIR)/sys/linux/main_server_deb.o \
+	$(BINDIR)/Server.o
 
 ################################################################################
 
@@ -22,6 +23,10 @@ $(SERVEREXENAME): $(OBJS)
 
 $(BINDIR)/sys/linux/%.o: $(SRCDIR)/sys/linux/%.cpp
 	mkdir -p $(BINDIR)/sys/linux/
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BINDIR)/%.o: $(SRCDIR)/%.cpp
+	mkdir -p $(BINDIR)/
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 

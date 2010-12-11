@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <cstdlib>
 
+#include "../../Server.h"
+
+
 #define XRES 640
 #define YRES 480
 
@@ -13,6 +16,21 @@
 
 #include <GL/gl.h>
 #include <GL/glut.h>
+
+
+
+
+
+
+
+
+Server g_server;
+
+
+
+
+
+
 /*
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,14 +123,27 @@ void keydown(unsigned char key, int x, int y)
 	glutPostRedisplay();
 }
 
+void specialKeydown(int key, int, int )
+{
+	/*
+	if( consoleInterface->getConsole().IsOpen() )
+	{
+		consoleInterface->getConsole().SpecialFunc( key );
+	}
+	*/
+}
+
 
 void idle()
 {
+	g_server.update();
 	glutPostRedisplay();
 }
 
 void processMouse(int button, int state, int x, int y)
 {
+
+	/*
 	specialKey = glutGetModifiers();
 	lastx = x;
 	lasty = y;
@@ -124,7 +155,7 @@ void processMouse(int button, int state, int x, int y)
 	case GLUT_RIGHT_BUTTON:     Buttons[2] = ((GLUT_DOWN==state)?1:0); break;
 	default: break;
 	}
-
+*/
 	glutPostRedisplay();
 }
 
@@ -143,6 +174,7 @@ void processMouseActiveMotion(int x, int y)
 	// update camera
 	glutPostRedisplay();
 }
+
 
 
 int main(int argc, char ** argv)
@@ -170,7 +202,13 @@ int main(int argc, char ** argv)
 
 	initGL();
 
+
+
+	g_server.init();
+
 	glutMainLoop();
+
+	g_server.shutdown();
 	return 0;
 }
 
