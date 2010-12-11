@@ -12,7 +12,15 @@ OBJS= $(BINDIR)/Server.o \
 	$(BINDIR)/Client.o \
 	$(BINDIR)/Message.o \
 	$(BINDIR)/Game.o \
-	$(BINDIR)/GameState.o
+	$(BINDIR)/GameState.o \
+	$(BINDIR)/math/Math.o \
+	$(BINDIR)/math/Matrix44f.o \
+	$(BINDIR)/math/Noise.o \
+	$(BINDIR)/math/Vec3f.o \
+	$(BINDIR)/gfx/Camera.o
+
+#	$(BINDIR)/math/RNG.o \
+
 
 SERVEROBJS = $(BINDIR)/sys/linux/main_server_deb.o
 CLIENTOBJS = $(BINDIR)/sys/linux/main_client_deb.o
@@ -35,6 +43,14 @@ $(CLIENTEXENAME): $(CLIENTOBJS) $(OBJS)
 
 $(BINDIR)/sys/linux/%.o: $(SRCDIR)/sys/linux/%.cpp
 	mkdir -p $(BINDIR)/sys/linux/
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BINDIR)/math/%.o: $(SRCDIR)/math/%.cpp
+	mkdir -p $(BINDIR)/math/
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BINDIR)/gfx/%.o: $(SRCDIR)/gfx/%.cpp
+	mkdir -p $(BINDIR)/gfx/
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp

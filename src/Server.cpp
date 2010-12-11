@@ -45,7 +45,6 @@ bool Server::update()
 			break;
 		case GRAPPLE_MSG_USER_MSG:
 		{
-			//std::cout << "user msg!!!!!!!!\n";
 			grapple_user origin = message->USER_MSG.id;
 			Message m( message->USER_MSG.data, message->USER_MSG.length );
 			if( m_message_callbacks.find( m.id() ) != m_message_callbacks.end() )

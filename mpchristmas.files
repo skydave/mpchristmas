@@ -14,3 +14,14 @@ src/Game.cpp
 src/Game.h
 src/Message.h
 src/Message.cpp
+src/math/Vec3f.h
+src/math/RNG.h
+src/math/Noise.h
+src/math/Matrix44f.h
+src/math/Math.h
+src/math/Vec3f.cpp
+src/math/Noise.cpp
+src/math/Matrix44f.cpp
+src/math/Math.cpp
+src/gfx/Camera.h
+src/gfx/Camera.cpp

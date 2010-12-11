@@ -2,6 +2,7 @@
 
 
 #include "GameState.h"
+#include "gfx/Camera.h"
 
 
 //
@@ -18,4 +19,5 @@ public:
 
 
 	GameState m_state;
+	Camera   m_camera;
 };
